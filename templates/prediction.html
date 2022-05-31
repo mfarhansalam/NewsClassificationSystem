@@ -1,0 +1,236 @@
+{% extends 'layout.html'%}{%block title %} Home {% endblock %}{%block content%}
+<div id="features" class="features section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="features-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="/prediction" method="POST">
+                                <div class="features-item first-feature wow fadeInUp" data-wow-duration="1s" data-wow-delay="0s">
+
+                                    <div class="icon"></div>
+                                    <h4>Input Text Here</h4>
+                                    <div class="line-dec"></div>
+                                    <div class="form-group">
+
+                                        <textarea class="form-control" id="textarea" rows="5" name="news" onkeyup='saveValue(this);'></textarea>
+                                    </div>
+                                    <script type="text/javascript">
+                                        document.getElementById("textarea").value = getSavedValue("textarea");
+
+                                        function saveValue(e) {
+                                            var id = e.id; // get the sender's id to save it . 
+                                            var val = e.value; // get the value. 
+                                            localStorage.setItem(id, val); // Every time user writing something, the localStorage's value will override . 
+                                        }
+
+                                        //get the saved value function - return the value of "v" from localStorage. 
+                                        function getSavedValue(v) {
+                                            if (!localStorage.getItem(v)) {
+                                                return ""; // You can change this to your defualt value. 
+                                            }
+                                            return localStorage.getItem(v);
+                                        }
+                                    </script>
+
+                                    <div class="col-lg-12">
+                                        <div class="main-green-button scroll-to-section">
+                                            <button type="submit" class="btn btn-success">Classify</button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="skills-content">
+                    <div style="margin-left: 40%;" class="row">
+                        <div class="col-lg-5">
+                            <div class="skill-item wow fadeIn" data-wow-duration="1s" data-wow-delay="0s">
+                                {% if prediction == ['NEGATIVE']%}
+                                <h2 style="color:red; text-align: center;">This is NEGATIVE news </h2>
+                                <div class="form-group"><br>
+                                    <h4>Drop us a feedback for the sentiment</h4>
+
+                                    <form action="/addlabel" method="POST">
+                                        <p>Please select wheather positive or negative sentiment:</p>
+                                        <div>
+                                            <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
+                                            <label for="positive">POSITIVE</label>
+                                            <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
+                                            <label for="negative">NEGATIVE</label>
+                                            <script>
+                                                document.write('<input type="hidden" name="news" value=" ' +
+                                                    document.getElementById("textarea").value + ' ">');
+                                            </script>
+
+                                            <input type="hidden" id="label" name="user_id" value="{{current_user.email}}">
+
+                                        </div>
+                                        <div>
+                                            <button type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% elif prediction == ['POSITIVE']%}
+                                <h2 style="color:green; text-align:center;"><b>This is POSITIVE news</b></h2>
+                                <div class="form-group"><br>
+                                    <h4>Drop us a feedback for the sentiment</h4>
+
+                                    <form action="/addlabel" method="POST">
+                                        <p>Please select wheather positive or negative sentiment:</p>
+                                        <div>
+
+
+                                            <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
+                                            <label for="positive">POSITIVE</label>
+                                            <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
+                                            <label for="negative">NEGATIVE</label>
+                                            <script>
+                                                document.write('<input type="hidden" name="news" value=" ' +
+                                                    document.getElementById("textarea").value + ' ">');
+                                            </script>
+                                            <input type="hidden" id="label" name="user_id" value="{{current_user.email}}">
+
+                                        </div>
+                                        <div>
+                                            <button type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="about" class="our-services section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading wow bounceIn" data-wow-duration="1s" data-wow-delay="0.2s">
+                    <h6>Our Services</h6>
+                    <h2>Discover What We Do &amp; <span>Offer</span> To Our <em>Clients</em></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-01.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Similar Websites</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-02.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Website Trends</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-03.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Traffic Analysis</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.6s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-03.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Optimizing Keywords</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.7s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-01.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Page Optimizations</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.8s">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/images/service-icon-02.png') }}" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="right-content">
+                                <h4>Deep URL Analysis</h4>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
