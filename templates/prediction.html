@@ -35,6 +35,7 @@
                                         }
                                     </script>
 
+                                    <br>
                                     <div class="col-lg-12">
                                         <div class="main-green-button scroll-to-section">
                                             <button type="submit" class="btn btn-success">Classify</button>
@@ -55,55 +56,18 @@
                         <div class="col-lg-5">
                             <div class="skill-item wow fadeIn" data-wow-duration="1s" data-wow-delay="0s">
                                 {% if prediction == ['NEGATIVE']%}
-                                <h2 style="color:red; text-align: center;">This is NEGATIVE news </h2>
+                                <h2 style="color:red; text-align: center;">THIS IS NEGATIVE SENTIMENT</h2>
                                 <div class="form-group"><br>
-                                    <h4>Drop us a feedback for the sentiment</h4>
-
-                                    <form action="/addlabel" method="POST">
-                                        <p>Please select wheather positive or negative sentiment:</p>
-                                        <div>
-                                            <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
-                                            <label for="positive">POSITIVE</label>
-                                            <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
-                                            <label for="negative">NEGATIVE</label>
-                                            <script>
-                                                document.write('<input type="hidden" name="news" value=" ' +
-                                                    document.getElementById("textarea").value + ' ">');
-                                            </script>
-
-                                            <input type="hidden" id="label" name="user_id" value="{{current_user.email}}">
-
-                                        </div>
-                                        <div>
-                                            <button type="submit">Submit</button>
-                                        </div>
-                                    </form>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                                        Drop us a feedback for the sentiment
+                                    </button>
                                 </div>
                                 {% elif prediction == ['POSITIVE']%}
-                                <h2 style="color:green; text-align:center;"><b>This is POSITIVE news</b></h2>
+                                <h2 style="color:green; text-align:center;"><b>THIS IS POSITIVE SENTIMENT</b></h2>
                                 <div class="form-group"><br>
-                                    <h4>Drop us a feedback for the sentiment</h4>
-
-                                    <form action="/addlabel" method="POST">
-                                        <p>Please select wheather positive or negative sentiment:</p>
-                                        <div>
-
-
-                                            <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
-                                            <label for="positive">POSITIVE</label>
-                                            <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
-                                            <label for="negative">NEGATIVE</label>
-                                            <script>
-                                                document.write('<input type="hidden" name="news" value=" ' +
-                                                    document.getElementById("textarea").value + ' ">');
-                                            </script>
-                                            <input type="hidden" id="label" name="user_id" value="{{current_user.email}}">
-
-                                        </div>
-                                        <div>
-                                            <button type="submit">Submit</button>
-                                        </div>
-                                    </form>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                                        Drop us a feedback for the sentiment
+                                    </button>
                                 </div>
                                 {% endif %}
                             </div>
@@ -138,7 +102,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="right-content">
-                                <h4>Similar Websites</h4>
+                                <h4>Classify Sentiments</h4>
                                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dormque laudantium.</p>
                             </div>
                         </div>
@@ -233,4 +197,45 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Please select wheather positive or negative sentiment:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form action="/addlabel" method="POST">
+                    <p></p>
+                    <div>
+                        <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
+                        <label for="positive">POSITIVE</label><br>
+                        <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
+                        <label for="negative">NEGATIVE</label>
+                        <script>
+                            document.write('<input type="hidden" name="news" value=" ' +
+                                document.getElementById("textarea").value + ' ">');
+                        </script>
+                        <input type="hidden" id="label" name="user_id" value="{{current_user.id}}">
+                        <input type="hidden" id="label" name="name" value="{{current_user.name}}">
+                        <input type="hidden" id="label" name="email" value="{{current_user.email}}">
+                        <input type="hidden" id="label" name="password" value="{{current_user.password}}">
+
+
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

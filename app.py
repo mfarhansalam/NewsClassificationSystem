@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_mysqldb import MySQL, MySQLdb
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 import pandas as pd
@@ -36,12 +37,18 @@ loaded_model = pickle.load(open('model.pkl', 'rb'))
 #app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 #mysql = MySQL(app) 
 
+feedback = db.Table('feedback',
+    db.Column('user_id',db.Integer,db.ForeignKey('users.id')),
+    db.Column('sentiment_id',db.Integer,db.ForeignKey('sentiment.id'))
+    )
+
 class Users(db.Model, UserMixin):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
-
+    sentiments = db.relationship("Sentiment",secondary=feedback)
     def __init__(self,name, email, password):
         
         self.name = name
@@ -50,26 +57,26 @@ class Users(db.Model, UserMixin):
 
 
 class Sentiment(db.Model):
+    __tablename__ = 'sentiment'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(1000), unique=True)
-    label = db.Column(db.String(1000), unique=True)
-    user_email = db.Column(db.String(1000), unique=True)
-   
+    label = db.Column(db.String(1000), unique=True) 
 
-    def __init__(self,text, label,user_email ):
-        
+    def __init__(self,text, label ):
         self.text = text
         self.label = label
-        self.user_email = user_email
-  
-class Feedback(db.Model):
-    id =db.Column(db.Integer, primary_key=True)
-    userMail = db.Column(db.String(1000), unique=True)
-    sentiment_id = db.Column(db.Integer, unique=True)
+       
 
-    def __init__(self,user_email,sentiment_id):
-        self.user_email = user_email
-        self.sentiment_id = sentiment_id
+
+
+# class Feedback(db.Model):
+#     id =db.Column(db.Integer, primary_key=True)
+#     user_email = db.Column(db.String(1000),db.ForeignKey('user_email'))
+#     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiment_id'))
+
+#     def __init__(self,user_email,sentiment_id):
+#         self.user_email = user_email
+#         self.sentiment_id = sentiment_id
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -126,12 +133,21 @@ def prediction():
 @app.route('/addlabel', methods=['POST', 'GET'])
 def addlabel():
     if request.method == 'POST':
-        
-            db.session.add(Sentiment(text=request.form['news'],label=request.form['label'],user_email=request.form['user_id']))
+
+            user = Users(email=request.form['email'],name=request.form['name'], password=request.form['password'])
+            sentiment = Sentiment(text=request.form['news'],label=request.form['label'])
+            user.sentiments.append(sentiment)
+
+            db.session.add(user)
+            # sentimentID = db.session.query(Sentiment).order_by(Sentiment.id.desc()).first()
+            # sql = text('SELECT * FROM sentiment WHERE id=(SELECT max(id) FROM sentiment)')
+            # sentimentID = db.engine.execute(sql)
+            # db.session.add(Feedback(user_email=request.form['user_id'], sentiment_id=sentimentID))
             db.session.commit()
             return redirect(url_for('prediction'))
     else:
         return render_template('404.html')
+
 
 
 @app.route('/register', methods=['POST', 'GET'])
