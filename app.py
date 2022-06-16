@@ -28,18 +28,10 @@ tfvect = TfidfVectorizer(stop_words='english', max_df=0.7)
 # Load Pickle model
 loaded_model = pickle.load(open('model.pkl', 'rb'))
 
-
-#app.config['MYSQL_HOST'] = 'localhost'
-#app.config['MYSQL_PORT'] = '3307'
-#app.config['MYSQL_USER'] = 'root'
-#app.config['MYSQL_PASSWORD'] = ''
-#app.config['MYSQL_DB'] = 'fypDB'
-#app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-#mysql = MySQL(app) 
-
 feedback = db.Table('feedback',
     db.Column('user_id',db.Integer,db.ForeignKey('users.id')),
-    db.Column('sentiment_id',db.Integer,db.ForeignKey('sentiment.id'))
+    db.Column('sentiment_id',db.Integer,db.ForeignKey('sentiment.id')),
+    
     )
 
 class Users(db.Model, UserMixin):
@@ -66,23 +58,11 @@ class Sentiment(db.Model):
         self.text = text
         self.label = label
        
-
-
-
-# class Feedback(db.Model):
-#     id =db.Column(db.Integer, primary_key=True)
-#     user_email = db.Column(db.String(1000),db.ForeignKey('user_email'))
-#     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiment_id'))
-
-#     def __init__(self,user_email,sentiment_id):
-#         self.user_email = user_email
-#         self.sentiment_id = sentiment_id
-
 @login_manager.user_loader
 def load_user(user_id):
 	return Users.query.get(int(user_id))
 
-# We need to fit the TFIDF VEctorizer
+#  need to fit the TFIDF VEctorizer
 dataframe = pd.read_csv('news.csv')
 x = dataframe['text']
 y = dataframe['label']
@@ -133,16 +113,10 @@ def prediction():
 @app.route('/addlabel', methods=['POST', 'GET'])
 def addlabel():
     if request.method == 'POST':
-
-            user = Users(email=request.form['email'],name=request.form['name'], password=request.form['password'])
-            sentiment = Sentiment(text=request.form['news'],label=request.form['label'])
-            user.sentiments.append(sentiment)
-
-            db.session.add(user)
-            # sentimentID = db.session.query(Sentiment).order_by(Sentiment.id.desc()).first()
-            # sql = text('SELECT * FROM sentiment WHERE id=(SELECT max(id) FROM sentiment)')
-            # sentimentID = db.engine.execute(sql)
-            # db.session.add(Feedback(user_email=request.form['user_id'], sentiment_id=sentimentID))
+            user = Users.query.get(request.form.get('user_id'))
+            #user = session.query(Users).filter(Users.id==request.form['user_id']).first()
+            s = Sentiment(text=request.form['news'],label=request.form['label'])
+            user.sentiments.append(s)  
             db.session.commit()
             return redirect(url_for('prediction'))
     else:
