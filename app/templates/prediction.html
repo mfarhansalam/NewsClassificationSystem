@@ -1,0 +1,194 @@
+{% extends 'layout.html'%}{%block title %} Home {% endblock %}{%block content%}
+<div id="features" class="features section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="features-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="/prediction" method="POST">
+                                <div class="features-item first-feature wow fadeInUp" data-wow-duration="1s" data-wow-delay="0s">
+
+                                    <div class="icon"></div>
+                                    <h4>Input Text Here</h4>
+                                    <div class="line-dec"></div>
+                                    <div class="form-group">
+
+                                        <textarea class="form-control" id="textarea" rows="5" name="news" onkeyup='saveValue(this);'></textarea>
+                                    </div>
+                                    <script type="text/javascript">
+                                        document.getElementById("textarea").value = getSavedValue("textarea");
+
+                                        function saveValue(e) {
+                                            var id = e.id; // get the sender's id to save it . 
+                                            var val = e.value; // get the value. 
+                                            localStorage.setItem(id, val); // Every time user writing something, the localStorage's value will override . 
+                                        }
+
+                                        //get the saved value function - return the value of "v" from localStorage. 
+                                        function getSavedValue(v) {
+                                            if (!localStorage.getItem(v)) {
+                                                return ""; // You can change this to your defualt value. 
+                                            }
+                                            return localStorage.getItem(v);
+                                        }
+                                    </script>
+
+                                    <br>
+                                    <div class="col-lg-12">
+                                        <div class="main-green-button scroll-to-section">
+                                            <button type="submit" class="btn btn-success">Classify</button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="skills-content">
+                    <div class="row">
+                        <div class="col-lg-7 mx-auto text-center">
+                            <div class="skill-item wow fadeIn" data-wow-duration="1s" data-wow-delay="0s">
+                                {% if prediction == ['NEGATIVE']%}
+                                <h2 style="color:red; " class="mb-4 section-heading">THIS IS NEGATIVE SENTIMENT</h2>
+                                <div class="form-group"><br>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Drop us a feedback for the sentiment
+                                    </button>
+                                </div>
+                                {% elif prediction == ['POSITIVE']%}
+                                <h2 style="color:green; " class="mb-4 section-heading"><b>THIS IS POSITIVE SENTIMENT</b></h2>
+                                <div class="form-group"><br>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Drop us a feedback for the sentiment
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="services" class="our-services section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading wow bounceIn" data-wow-duration="1s" data-wow-delay="0.2s">
+                    <h6>What you need to do</h6>
+                    <h2>Discover How To Prevent <span>Spreading Misinformation</span> </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="site-section bg-primary-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+
+                        <div class="row"></div>
+                        <div class="row">
+                            <div class="col-6 col-lg-6 mt-lg-5">
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-stay-at-home"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Educate yourself</h3>
+                                        <p>The best inoculation against what the World Health Organization is calling the “infodemic” is to understand the tricks that agents of disinformation are using to try to manipulate you.</p>
+                                    </div>
+                                </div>
+
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-patient"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Consider the source</h3>
+                                        <p>When consuming news, make sure you know how trustworthy the source is – or whether it’s not trustworthy at all. .</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-6">
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-social-distancing"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Be aware of your emotions</h3>
+                                        <p>People often share things because of their gut reactions, rather than the conclusions of critical thinking</p>
+                                    </div>
+                                </div>
+
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-hand-washing"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Unsure whether it's true</h3>
+                                        <p>Don't forward things on "just in case" they might be true. You might be doing more harm than good.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-5 ml-auto">
+                        <h2 class="section-heading mb-4">Avoid becoming a misinformation superspreader</h2>
+                        <p>The problem of misinformation isn’t going away. Internet platforms like Facebook and Twitter have taken some steps to curb its spread and say they are working on doing more. But no method yet introduced has been completely successful
+                            at removing all misleading content from social media. The best defense, then, is self-defense.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Please select wheather positive or negative sentiment:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form action="/addlabel" method="POST">
+                    <p></p>
+                    <div>
+                        <input type="radio" id="contactChoice1" name="label" value="POSITIVE">
+                        <label for="positive">POSITIVE</label><br>
+                        <input type="radio" id="contactChoice2" name="label" value="NEGATIVE">
+                        <label for="negative">NEGATIVE</label>
+                        <script>
+                            document.write('<input type="hidden" name="news" value=" ' +
+                                document.getElementById("textarea").value + ' ">');
+                        </script>
+                        <input type="hidden" id="label" name="user_id" value="{{current_user.id}}">
+
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

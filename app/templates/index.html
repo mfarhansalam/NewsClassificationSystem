@@ -1,0 +1,108 @@
+{% extends 'layout.html'%}{%block title %} Index {% endblock %}{%block content%}
+<div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <h2>COVID-19 News Detector </h2>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="main-green-button scroll-to-section">
+                                        <a href="/login">Classify Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <img src="{{ url_for('static', filename='assets/images/banner-right-image.png') }}" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="services" class="our-services section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading wow bounceIn" data-wow-duration="1s" data-wow-delay="0.2s">
+                    <h6>What you need to do</h6>
+                    <h2>Discover How To Prevent <span>Spreading Misinformation</span> </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="site-section bg-primary-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+
+                        <div class="row"></div>
+                        <div class="row">
+                            <div class="col-6 col-lg-6 mt-lg-5">
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-stay-at-home"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Educate yourself</h3>
+                                        <p>The best inoculation against what the World Health Organization is calling the “infodemic” is to understand the tricks that agents of disinformation are using to try to manipulate you.</p>
+                                    </div>
+                                </div>
+
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-patient"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Consider the source</h3>
+                                        <p>When consuming news, make sure you know how trustworthy the source is – or whether it’s not trustworthy at all. .</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-6">
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-social-distancing"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Be aware of your emotions</h3>
+                                        <p>People often share things because of their gut reactions, rather than the conclusions of critical thinking</p>
+                                    </div>
+                                </div>
+
+                                <div class="media-v1 bg-1">
+                                    <div class="icon-wrap">
+                                        <span class="flaticon-hand-washing"></span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>Unsure whether it's true</h3>
+                                        <p>Don't forward things on "just in case" they might be true. You might be doing more harm than good.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-5 ml-auto">
+                        <h2 class="section-heading mb-4">Avoid becoming a misinformation superspreader</h2>
+                        <p>The problem of misinformation isn’t going away. Internet platforms like Facebook and Twitter have taken some steps to curb its spread and say they are working on doing more. But no method yet introduced has been completely successful
+                            at removing all misleading content from social media. The best defense, then, is self-defense.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}
